@@ -1,4 +1,4 @@
-export type ProductId = 'bread' | 'milk' | 'cheese' | 'soup' | 'butter';
+export type ProductId = "bread" | "milk" | "cheese" | "soup" | "butter";
 
 export type Product = {
   id: ProductId;
@@ -11,11 +11,16 @@ export type CartItem = {
   quantity: number;
 };
 
+export type OfferSaving = {
+  id: string;
+  description: string;
+  savingPence: number;
+};
 
 export const PRODUCTS: Record<ProductId, Product> = {
-  bread:  { id: 'bread',  name: 'Bread',  pricePence: 110 },
-  milk:   { id: 'milk',   name: 'Milk',   pricePence:  50 },
-  cheese: { id: 'cheese', name: 'Cheese', pricePence:  90 },
-  soup:   { id: 'soup',   name: 'Soup',   pricePence:  60 },
-  butter: { id: 'butter', name: 'Butter', pricePence: 120 },
+  bread: { id: "bread", name: "Bread", pricePence: 110 },
+  milk: { id: "milk", name: "Milk", pricePence: 50 },
+  cheese: { id: "cheese", name: "Cheese", pricePence: 90 },
+  soup: { id: "soup", name: "Soup", pricePence: 60 },
+  butter: { id: "butter", name: "Butter", pricePence: 120 },
 };
