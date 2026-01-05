@@ -2,7 +2,8 @@ import React from "react";
 import { useAppDispatch } from "../app/hooks";
 import { addOne } from "../features/cart/cartSlice";
 import { PRODUCTS } from "../features/cart/types";
-import { formatPounds } from "../utils/currency";
+
+const formatPounds = (pence: number) => `£${(pence / 100).toFixed(2)}`;
 
 export const ProductList: React.FC = () => {
   const dispatch = useAppDispatch();

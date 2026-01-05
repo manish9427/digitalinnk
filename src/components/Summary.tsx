@@ -1,18 +1,40 @@
 import React from "react";
 import { useAppSelector } from "../app/hooks";
-import {
-  selectSubtotalPence,
-  selectOfferResult,
-  selectTotalSavingsPence,
-  selectTotalPence,
-} from "../features/cart/selectors";
-import { formatPounds } from "../utils/currency";
+import { PRODUCTS } from "../features/cart/types";
+
+const formatPounds = (pence: number) => `£${(pence / 100).toFixed(2)}`;
 
 export const Summary: React.FC = () => {
-  const subtotal = useAppSelector(selectSubtotalPence);
-  const offers = useAppSelector(selectOfferResult);
-  const totalSavings = useAppSelector(selectTotalSavingsPence);
-  const total = useAppSelector(selectTotalPence);
+  const cart = useAppSelector((state) => state.cart);
+
+  const subtotal = cart.reduce(
+    (sum, item) => sum + PRODUCTS[item.productId].pricePence * item.quantity,
+    0
+  );
+
+  let savings = 0;
+
+  const qty = (id: keyof typeof PRODUCTS) =>
+    cart.find((i) => i.productId === id)?.quantity ?? 0;
+
+  const cheeseQty = qty("cheese");
+  if (cheeseQty >= 2) {
+    savings += Math.floor(cheeseQty / 2) * PRODUCTS.cheese.pricePence;
+  }
+
+  const soupQty = qty("soup");
+  const breadQty = qty("bread");
+  const eligibleBread = Math.min(soupQty, breadQty);
+  if (eligibleBread > 0) {
+    savings += eligibleBread * Math.round(PRODUCTS.bread.pricePence / 2);
+  }
+
+  const butterQty = qty("butter");
+  if (butterQty > 0) {
+    savings += butterQty * Math.round(PRODUCTS.butter.pricePence / 3);
+  }
+
+  const total = Math.max(0, subtotal - savings);
 
   return (
     <section>
@@ -21,21 +43,7 @@ export const Summary: React.FC = () => {
         <b>Sub Total:</b> {formatPounds(subtotal)}
       </div>
       <div style={{ marginTop: "8px" }}>
-        <b>Special offers:</b>
-        {offers.savings.length === 0 ? (
-          <div style={{ color: "#666" }}>No offers applied</div>
-        ) : (
-          <ul style={{ marginTop: "4px" }}>
-            {offers.savings.map((s) => (
-              <li key={s.id} style={{ color: "#c0392b" }}>
-                {s.description}: -{formatPounds(s.savingPence)}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div style={{ marginTop: "8px" }}>
-        <b>Savings:</b> {formatPounds(totalSavings)}
+        <b>Savings:</b> {formatPounds(savings)}
       </div>
       <div style={{ marginTop: "8px", fontWeight: 700 }}>
         <b>Total Amount:</b> {formatPounds(total)}
