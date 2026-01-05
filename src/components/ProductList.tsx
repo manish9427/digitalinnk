@@ -12,6 +12,7 @@ export const ProductList: React.FC = () => {
   return (
     <section>
       <h2>Products</h2>
+      <hr />
       <ul style={{ listStyle: "none", padding: 0 }}>
         {products.map((p) => (
           <li

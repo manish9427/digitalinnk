@@ -9,12 +9,13 @@ export default function App() {
     <main className="container">
       <div>
         <ProductList />
-        <hr style={{ margin: "16px 0" }} />
-        <SpecialOffers />
+        <hr />
+        <SpecialOffers/>
+
       </div>
       <div>
         <Basket />
-        <hr style={{ margin: "16px 0" }} />
+        <hr />
         <Summary />
       </div>
     </main>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { addOne, removeOne, removeProduct, clearCart } from "../features/cart/cartSlice";
+import { addOne, removeOne } from "../features/cart/cartSlice";
 import { PRODUCTS } from "../features/cart/types";
 
 const formatPounds = (pence: number) => `£${(pence / 100).toFixed(2)}`;
@@ -16,7 +16,8 @@ export const Basket: React.FC = () => {
 
   return (
     <section>
-      <h2>Your basket</h2>
+      <h2>Basket</h2>
+      <hr />
       {!hasItems && <p>No items yet.</p>}
 
       {hasItems && (
@@ -54,48 +55,45 @@ export const Basket: React.FC = () => {
                     }}
                   >
                     <strong>{product.name}</strong>
+                    <span style={{ width: 80 }}>
+                      {formatPounds(product.pricePence)}
+                    </span>
                     <div>
-                      <button
-                        onClick={() => dispatch(removeOne(product.id))}
-                        aria-label="decrease"
-                      >
+                      <button onClick={() => dispatch(removeOne(product.id))}>
                         -
                       </button>
                       <span style={{ margin: "0 8px" }}>{it.quantity}</span>
-                      <button
-                        onClick={() => dispatch(addOne(product.id))}
-                        aria-label="increase"
-                      >
+                      <button onClick={() => dispatch(addOne(product.id))}>
                         +
-                      </button>
-                      <button
-                        onClick={() => dispatch(removeProduct(product.id))}
-                        style={{ marginLeft: "8px" }}
-                      >
-                        Remove
                       </button>
                     </div>
                   </div>
 
-                  <div style={{ fontSize: "14px", color: "#444", marginTop: "4px" }}>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      color: "#444",
+                      marginTop: "4px",
+                      textAlign: "right",
+                    }}
+                  >
                     <div>
                       <b>Item price:</b> {formatPounds(product.pricePence)} ×{" "}
                       {it.quantity} = {formatPounds(linePrice)}
                     </div>
                     {lineSaving > 0 && (
-                      <div style={{ marginTop: "4px", color: "green" }}>
-                        <b>You saved:</b> {formatPounds(lineSaving)}
+                      <div style={{ marginTop: "4px", color: "red" }}>
+                        <b>Savings:</b> {formatPounds(lineSaving)}
                       </div>
                     )}
+                    <div style={{ marginTop: "4px" }}>
+                      <b>Item cost:</b> {formatPounds(linePrice - lineSaving)}
+                    </div>
                   </div>
                 </li>
               );
             })}
           </ul>
-
-          <button onClick={() => dispatch(clearCart())} style={{ marginTop: "8px" }}>
-            Clear cart
-          </button>
         </>
       )}
     </section>

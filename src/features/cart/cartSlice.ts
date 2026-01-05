@@ -27,18 +27,10 @@ const cartSlice = createSlice({
         const idx = state.findIndex((i) => i.productId === id);
         if (idx >= 0) state.splice(idx, 1);
       }
-    },
-    removeProduct(state, action: PayloadAction<ProductId>) {
-      const id = action.payload;
-      const idx = state.findIndex((i) => i.productId === id);
-      if (idx >= 0) state.splice(idx, 1);
-    },
-    clearCart() {
-      return [];
-    },
+    }
   },
 });
 
-export const { addOne, removeOne, removeProduct, clearCart } =
+export const { addOne, removeOne } =
   cartSlice.actions;
 export default cartSlice.reducer;
