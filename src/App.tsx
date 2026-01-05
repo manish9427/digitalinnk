@@ -7,12 +7,12 @@ import { SpecialOffers } from "./components/SpecialOffers";
 export default function App() {
   return (
     <main className="container">
-      <div className="product">
+      <div>
         <ProductList />
         <hr style={{ margin: "16px 0" }} />
         <SpecialOffers />
       </div>
-      <div className="basket">
+      <div>
         <Basket />
         <hr style={{ margin: "16px 0" }} />
         <Summary />
