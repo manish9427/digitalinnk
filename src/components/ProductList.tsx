@@ -18,8 +18,8 @@ export const ProductList: React.FC = () => {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "1rem",
-              marginBottom: "0.5rem",
+              gap: "16px",
+              marginBottom: "8px",
             }}
           >
             <span style={{ width: 140 }}>{p.name}</span>

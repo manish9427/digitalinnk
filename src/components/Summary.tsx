@@ -20,12 +20,12 @@ export const Summary: React.FC = () => {
       <div>
         <b>Sub Total:</b> {formatPounds(subtotal)}
       </div>
-      <div style={{ marginTop: "0.5rem" }}>
+      <div style={{ marginTop: "8px" }}>
         <b>Special offers:</b>
         {offers.savings.length === 0 ? (
           <div style={{ color: "#666" }}>No offers applied</div>
         ) : (
-          <ul style={{ marginTop: "0.25rem" }}>
+          <ul style={{ marginTop: "4px" }}>
             {offers.savings.map((s) => (
               <li key={s.id} style={{ color: "#c0392b" }}>
                 {s.description}: -{formatPounds(s.savingPence)}
@@ -34,10 +34,10 @@ export const Summary: React.FC = () => {
           </ul>
         )}
       </div>
-      <div style={{ marginTop: "0.5rem" }}>
+      <div style={{ marginTop: "8px" }}>
         <b>Savings:</b> {formatPounds(totalSavings)}
       </div>
-      <div style={{ marginTop: "0.5rem", fontWeight: 700 }}>
+      <div style={{ marginTop: "8px", fontWeight: 700 }}>
         <b>Total Amount:</b> {formatPounds(total)}
       </div>
     </section>

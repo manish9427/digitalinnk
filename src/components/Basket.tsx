@@ -23,7 +23,7 @@ export const Basket: React.FC = () => {
           return (
             <li
               key={it.product.id}
-              style={{ borderBottom: "1px solid #eee", padding: "0.5rem 0" }}
+              style={{ borderBottom: "1px solid #eee", padding: "8px 0" }}
             >
               <div
                 style={{
@@ -40,7 +40,7 @@ export const Basket: React.FC = () => {
                   >
                     -
                   </button>
-                  <span style={{ margin: "0 0.5rem" }}>{it.quantity}</span>
+                  <span style={{ margin: "0 8px" }}>{it.quantity}</span>
                   <button
                     onClick={() => dispatch(addOne(it.product.id))}
                     aria-label="increase"
@@ -49,7 +49,7 @@ export const Basket: React.FC = () => {
                   </button>
                   <button
                     onClick={() => dispatch(removeProduct(it.product.id))}
-                    style={{ marginLeft: "0.5rem" }}
+                    style={{ marginLeft: "8px" }}
                   >
                     Remove
                   </button>
@@ -57,9 +57,9 @@ export const Basket: React.FC = () => {
               </div>
               <div
                 style={{
-                  fontSize: "0.9rem",
+                  fontSize: "14px",
                   color: "#444",
-                  marginTop: "0.25rem",
+                  marginTop: "4px",
                 }}
               >
                 <div>
