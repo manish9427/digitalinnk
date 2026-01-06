@@ -2,17 +2,13 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { addOne, removeOne } from "../features/cart/cartSlice";
 import { PRODUCTS } from "../features/cart/types";
-
-const formatPounds = (pence: number) => `£${(pence / 100).toFixed(2)}`;
+import { formatPounds, calculateLineSaving } from "../utils/cart";
 
 export const Basket: React.FC = () => {
   const dispatch = useAppDispatch();
   const items = useAppSelector((state) => state.cart);
 
   const hasItems = items.length > 0;
-
-  const qty = (id: keyof typeof PRODUCTS) =>
-    items.find((i) => i.productId === id)?.quantity ?? 0;
 
   return (
     <section>
@@ -21,80 +17,61 @@ export const Basket: React.FC = () => {
       {!hasItems && <p>No items yet.</p>}
 
       {hasItems && (
-        <>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {items.map((it) => {
-              const product = PRODUCTS[it.productId];
-              const linePrice = product.pricePence * it.quantity;
+        <ul style={{ listStyle: "none", padding: 0 }}>
+          {items.map((it) => {
+            const product = PRODUCTS[it.productId];
+            const linePrice = product.pricePence * it.quantity;
 
-              const lineSaving = (() => {
-                switch (product.id) {
-                  case "cheese":
-                    return Math.floor(it.quantity / 2) * product.pricePence;
-                  case "bread": {
-                    const eligibleBread = Math.min(qty("soup"), qty("bread"));
-                    return eligibleBread * Math.round(product.pricePence / 2);
-                  }
-                  case "butter":
-                    return it.quantity * Math.round(product.pricePence / 3);
-                  default:
-                    return 0;
-                }
-              })();
+            const lineSaving = calculateLineSaving(items, product.id as keyof typeof PRODUCTS);
 
-              return (
-                <li
-                  key={product.id}
-                  style={{ borderBottom: "1px solid #eee", padding: "8px 0" }}
+            return (
+              <li
+                key={product.id}
+                style={{ borderBottom: "1px solid #eee", padding: "8px 0" }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    <strong>{product.name}</strong>
-                    <span style={{ width: 80 }}>
-                      {formatPounds(product.pricePence)}
-                    </span>
-                    <div>
-                      <button onClick={() => dispatch(removeOne(product.id))}>
-                        -
-                      </button>
-                      <span style={{ margin: "0 8px" }}>{it.quantity}</span>
-                      <button onClick={() => dispatch(addOne(product.id))}>
-                        +
-                      </button>
-                    </div>
+                  <strong>{product.name}</strong>
+                  <span style={{ width: 80 }}>
+                    {formatPounds(product.pricePence)}
+                  </span>
+                  <div>
+                    <button onClick={() => dispatch(removeOne(product.id))}>-</button>
+                    <span style={{ margin: "0 8px" }}>{it.quantity}</span>
+                    <button onClick={() => dispatch(addOne(product.id))}>+</button>
                   </div>
+                </div>
 
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#444",
-                      marginTop: "4px",
-                      textAlign: "right",
-                    }}
-                  >
-                    <div>
-                      <b>Item price:</b> {formatPounds(product.pricePence)} ×{" "}
-                      {it.quantity} = {formatPounds(linePrice)}
-                    </div>
-                    {lineSaving > 0 && (
-                      <div style={{ marginTop: "4px", color: "red" }}>
-                        <b>Savings:</b> {formatPounds(lineSaving)}
-                      </div>
-                    )}
-                    <div style={{ marginTop: "4px" }}>
-                      <b>Item cost:</b> {formatPounds(linePrice - lineSaving)}
-                    </div>
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#444",
+                    marginTop: "4px",
+                    textAlign: "right",
+                  }}
+                >
+                  <div>
+                    <b>Item price:</b> {formatPounds(product.pricePence)} × {it.quantity} ={" "}
+                    {formatPounds(linePrice)}
                   </div>
-                </li>
-              );
-            })}
-          </ul>
-        </>
+                  {lineSaving > 0 && (
+                    <div style={{ marginTop: "4px", color: "red" }}>
+                      <b>Savings:</b> {formatPounds(lineSaving)}
+                    </div>
+                  )}
+                  <div style={{ marginTop: "4px" }}>
+                    <b>Item cost:</b> {formatPounds(linePrice - lineSaving)}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </section>
   );
