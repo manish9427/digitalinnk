@@ -11,7 +11,7 @@ export const Basket: React.FC = () => {
   const hasItems = items.length > 0;
 
   return (
-    <section>
+    <div>
       <h2>Basket</h2>
       <hr />
       {!hasItems && <p>No items yet.</p>}
@@ -73,6 +73,6 @@ export const Basket: React.FC = () => {
           })}
         </ul>
       )}
-    </section>
+    </div>
   );
 };

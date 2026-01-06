@@ -15,7 +15,7 @@ export const Summary: React.FC = () => {
   const total = Math.max(0, subtotal - savings);
 
   return (
-    <section>
+    <div>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
         <span>Sub Total:</span> <span>{formatPounds(subtotal)}</span>
       </div>
@@ -25,6 +25,6 @@ export const Summary: React.FC = () => {
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px" }}>
         <span>Total Amount:</span> <span>{formatPounds(total)}</span>
       </div>
-    </section>
+    </div>
   );
 };
